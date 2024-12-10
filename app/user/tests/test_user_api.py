@@ -44,8 +44,8 @@ class PublicUserApiTests(TestCase):
         """Test error returned if user created with existing email"""
         payload = {
            'email': 'test@example.com',
-            'password': 'testpass123',
-            'name': 'Test Name',
+           'password': 'testpass123',
+           'name': 'Test Name',
         }
         create_user(**payload)
         res = self.client.post(CREATE_USER_URL, payload)
@@ -67,13 +67,12 @@ class PublicUserApiTests(TestCase):
             ).exists()
         self.assertFalse(user_exists)
 
-
     def test_create_token_for_user(self):
         """Test generates token for valid credentials"""
         user_details = {
              'email': 'test@example.com',
-            'password': 'test-user-password123',
-            'name': 'Test Name',
+             'password': 'test-user-password123',
+             'name': 'Test Name',
         }
         create_user(**user_details)
 
@@ -98,16 +97,16 @@ class PublicUserApiTests(TestCase):
 
     def test_create_token_email_not_found(self):
          """Test error returned if user not found for given email."""
-         payload = {'email': 'test@example.com', 'password': 'pass123'}
-         res = self.client.post(TOKEN_URL, payload)
+        payload = {'email': 'test@example.com', 'password': 'pass123'}
+        res = self.client.post(TOKEN_URL, payload)
 
-         self.assertNotIn('token', res.data)
-         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertNotIn('token', res.data)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_create_token_blank_password(self):
         """test posting a blank password returns an error"""
         payload = {'email': 'test@example.com', 'password': ''}
-        res= self.client.post(TOKEN_URL, payload)
+        res = self.client.post(TOKEN_URL, payload)
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
